@@ -70,21 +70,9 @@ const MovieCard: React.FC<MovieCardProps> = ({
                     ">
                         
                         <div className="flex flex-row items-center gap-3">
-                            <div className="
-                            cursor-pointer
-                            w-6
-                            h-6
-                            lg:w-10
-                            lg-h-10
-                            bg-white
-                            rounded-full
-                            flex justify-center
-                            items-center 
-                            transition 
-                            hover:bg-neutral-300
-                            " 
-                            onClick={()=> {}}>
-                                <BsFillPlayFill size={30} />
+                            <div className="cursor-pointer group/item w-6 h-6 lg:w-10 lg:h-10 border-white rounded-full flex justify-center items-center transition hover:border-neutral-300 bg-white" 
+                                onClick={()=> {}}>
+                                <BsFillPlayFill size={25} />
                             </div>
                             <FavoriteButton movieId={data?.id} />
                         </div>

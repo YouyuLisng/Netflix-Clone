@@ -8,7 +8,6 @@ const Navbar = () => {
     const TOP_OFFSET = 66;
     useEffect(() => {
         const handleScroll = () => {
-            console.log(window.scrollY)
             if (window.scrollY >= TOP_OFFSET) {
                 setShowBackground(true)
             } else {

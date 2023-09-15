@@ -4,9 +4,9 @@ import { getSession } from "next-auth/react";
 
 const serverAuth = async (req: NextApiRequest) => {
     const session = await getSession({ req });
-    if (!session?.user?.email) {
-        console.log('Invalid session:', session);
-        throw new Error('Not signed in');
+    console.log(session, 'serverAuth');
+    if(!session?.user?.email) {
+        throw Error('Not Signed in')
     }
 
     const currentUser = await prismadb.user.findUnique({
@@ -14,11 +14,12 @@ const serverAuth = async (req: NextApiRequest) => {
             email: session.user.email,
         }
     });
+
     if(!currentUser) {
-        throw new Error('Not signed in')
+        throw Error('Not Signed in')
     }
 
-    return { currentUser }
+    return { currentUser };
 }
 
 export default serverAuth;
