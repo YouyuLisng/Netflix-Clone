@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        await serverAuth(req);
+        await serverAuth(req, res);
         // 取得db電影數量
         const moviesCount = await prismadb.movie.count();
         // 產生隨機電影
