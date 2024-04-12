@@ -76,12 +76,12 @@ export async function getServerSideProps(context: NextPageContext) {
                     <nav className="px-12 py-5">
                         <img src="/images/logo.png" className="h-12" alt="Logo" />
                     </nav>
-                    <form  className="flex justify-center">
+                    <div className="flex justify-center">
                         <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
                             <h2 className="text-white text-4xl mb-8 font-semibold">
                             {variant === 'login' ? 'Sign in' : 'Register'}
                             </h2>
-                            <div className="flex flex-col gap-4">
+                            <form className="flex flex-col gap-4">
                                 {variant === 'register' && (
                                     <Input
                                         id="name"
@@ -105,7 +105,7 @@ export async function getServerSideProps(context: NextPageContext) {
                                     value={password}
                                     onChange={(e: any) => setPassword(e.target.value)} 
                                 />
-                            </div>
+                            </form>
                             <button onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
                                 {variant === 'login' ? 'Login' : 'Sign up'}
                             </button>
@@ -121,7 +121,7 @@ export async function getServerSideProps(context: NextPageContext) {
                                 </span>
                             </p>
                         </div>
-                    </form >
+                    </div>
                 </div>
             </div>
         </>
