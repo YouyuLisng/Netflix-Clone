@@ -76,7 +76,7 @@ export async function getServerSideProps(context: NextPageContext) {
                     <nav className="px-12 py-5">
                         <img src="/images/logo.png" className="h-12" alt="Logo" />
                     </nav>
-                    <div className="flex justify-center">
+                    <form  className="flex justify-center">
                         <div className="bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
                             <h2 className="text-white text-4xl mb-8 font-semibold">
                             {variant === 'login' ? 'Sign in' : 'Register'}
@@ -121,7 +121,7 @@ export async function getServerSideProps(context: NextPageContext) {
                                 </span>
                             </p>
                         </div>
-                    </div>
+                    </form >
                 </div>
             </div>
         </>
