@@ -39,16 +39,16 @@ export async function getServerSideProps(context: NextPageContext) {
 
     const login = useCallback(async () => {
         try {
-        await signIn('credentials', {
-            email,
-            password,
-            redirect: false,
-            callbackUrl: '/'
-        });
+            await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
+                callbackUrl: '/'
+            });
 
-        router.push('/profiles');
+            router.push('/profiles');
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     }, [email, password, router]);
 
