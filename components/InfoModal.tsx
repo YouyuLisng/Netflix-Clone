@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { AiOutlineClose } from 'react-icons/ai';
 
 import PlayButton from "./PlayButton";
@@ -17,9 +17,15 @@ const InfoModal: React.FC<InfoModalProps> = ({ visible, onClose}) => {
     const { movieId } = useInfoModal();
     const { data = {} } = useMovie(movieId);
 
-    useEffect(() => {
+    // Mirrors `visible` into local state during render (instead of via an
+    // effect) so handleClose can still drop isVisible early to trigger the
+    // closing animation before the parent flips `visible` off.
+    const [prevVisible, setPrevVisible] = useState(visible);
+
+    if (visible !== prevVisible) {
+        setPrevVisible(visible);
         setIsVisible(!!visible);
-    }, [visible]);
+    }
 
     const handleClose = useCallback(() => {
         setIsVisible(false);
