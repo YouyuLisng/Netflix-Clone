@@ -30,29 +30,45 @@ export async function getServerSideProps(context: NextPageContext) {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    const [authError, setAuthError] = useState('');
 
     const [variant, setVariant] = useState('login');
 
     const toggleVariant = useCallback(() => {
+        setAuthError('');
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
     }, []);
 
     const login = useCallback(async () => {
+        setAuthError('');
+
         try {
-            await signIn('credentials', {
+            // signIn with redirect: false never rejects on bad credentials --
+            // it resolves with { error } instead, which must be checked
+            // explicitly or a failed login silently "succeeds" into a
+            // redirect to a page the user isn't actually authenticated for.
+            const result = await signIn('credentials', {
                 email,
                 password,
                 redirect: false,
                 callbackUrl: '/'
             });
 
+            if (result?.error) {
+                setAuthError('帳號或密碼錯誤');
+                return;
+            }
+
             router.push('/profiles');
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setAuthError('登入時發生錯誤，請稍後再試');
         }
     }, [email, password, router]);
 
     const register = useCallback(async () => {
+        setAuthError('');
+
         try {
         await axios.post('/api/register', {
             email,
@@ -62,7 +78,8 @@ export async function getServerSideProps(context: NextPageContext) {
 
         login();
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setAuthError('註冊時發生錯誤，請稍後再試');
         }
     }, [email, name, password, login]);
 
@@ -88,7 +105,7 @@ export async function getServerSideProps(context: NextPageContext) {
                                         type="text"
                                         label="Username"
                                         value={name}
-                                        onChange={(e: any) => setName(e.target.value)} 
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                                     />
                                 )}
                                 <Input
@@ -96,16 +113,19 @@ export async function getServerSideProps(context: NextPageContext) {
                                     type="email"
                                     label="Email address or phone number"
                                     value={email}
-                                    onChange={(e: any) => setEmail(e.target.value)} 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                                 />
                                 <Input
-                                    type="password" 
-                                    id="password" 
-                                    label="Password" 
+                                    type="password"
+                                    id="password"
+                                    label="Password"
                                     value={password}
-                                    onChange={(e: any) => setPassword(e.target.value)} 
+                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                                 />
                             </form>
+                            {authError && (
+                                <p className="text-red-500 mt-4">{authError}</p>
+                            )}
                             <button onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
                                 {variant === 'login' ? 'Login' : 'Sign up'}
                             </button>
